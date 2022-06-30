@@ -11,7 +11,13 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
+    return MaterialApp(
+      title: "Login API",
+      // theme: ThemeData.dark(),
+      theme: ThemeData(
+        useMaterial3: true,
+        colorScheme: ColorScheme.dark().copyWith(primary: Colors.amber),
+      ),
       debugShowCheckedModeBanner: false,
       home: WelcomePage(),
     );

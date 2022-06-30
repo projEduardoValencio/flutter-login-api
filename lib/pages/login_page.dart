@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:login_page/pages/home_page.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart';
@@ -28,61 +29,102 @@ class _LoginPageState extends State<LoginPage> {
           child: Center(
             child: SingleChildScrollView(
               padding: EdgeInsets.symmetric(horizontal: 16),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  TextFormField(
-                    decoration: InputDecoration(labelText: "e-mail"),
-                    controller: _emailController,
-                    keyboardType: TextInputType.emailAddress,
-                    validator: (email) {
-                      if (email == null || email.isEmpty) {
-                        return "Insira um e-mail";
-                      } else if (!RegExp(
-                              r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
-                          .hasMatch(_emailController.text)) {
-                        return 'Por favor, digite um e-mail correto';
-                      }
-                      return null;
-                    },
-                  ),
-                  TextFormField(
-                    decoration: InputDecoration(labelText: "senha"),
-                    controller: _passwordController,
-                    keyboardType: TextInputType.text,
-                    validator: (senha) {
-                      if (senha == null || senha.isEmpty) {
-                        return "Por favor insira uma senha";
-                      }
-                      return null;
-                    },
-                  ),
-                  ElevatedButton(
-                    onPressed: () async {
-                      FocusScopeNode currentFocus = FocusScope.of(context);
-                      //verificar se o estado das validações esta valido
-                      if (_formkey.currentState!.validate()) {
-                        bool confirm = await login();
-                        //Escondendo o teclado
-                        if (!currentFocus.hasPrimaryFocus) {
-                          currentFocus.unfocus();
+              child: Container(
+                padding: EdgeInsets.symmetric(horizontal: 8, vertical: 15),
+                decoration: BoxDecoration(
+                  // color: Color.fromARGB(255, 100, 100, 100),
+                  borderRadius: BorderRadius.circular(30),
+                  //   border: Border.all(
+                  //       // color: Color.fromARGB(255, 29, 29, 29),
+                  //       // style: BorderStyle.solid,
+                  //       ),
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    Text(
+                      "ENTRAR",
+                      textAlign: TextAlign.center,
+                      style: GoogleFonts.lora(fontSize: 30),
+                    ),
+                    SizedBox(
+                      height: 20,
+                    ),
+                    TextFormField(
+                      decoration: InputDecoration(
+                        labelText: "e-mail",
+                        // labelStyle: TextStyle(color: Colors.purple),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(30),
+                        ),
+                        // counterStyle: TextStyle(color: Colors.purple),
+                      ),
+                      controller: _emailController,
+                      keyboardType: TextInputType.emailAddress,
+                      validator: (email) {
+                        if (email == null || email.isEmpty) {
+                          return "Insira um e-mail";
+                        } else if (!RegExp(
+                                r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+                            .hasMatch(_emailController.text)) {
+                          return 'Por favor, digite um e-mail correto';
                         }
-                        if (confirm) {
-                          Navigator.pushReplacement(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => HomePage(),
-                            ),
-                          );
-                        } else {
-                          _passwordController.clear();
-                          ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                        return null;
+                      },
+                    ),
+                    SizedBox(
+                      height: 8,
+                    ),
+                    TextFormField(
+                      decoration: InputDecoration(
+                        labelText: "senha",
+                        // labelStyle: TextStyle(color: Colors.purple),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(30),
+                        ),
+                        // counterStyle: TextStyle(color: Colors.purple),
+                      ),
+                      controller: _passwordController,
+                      obscureText: true,
+                      keyboardType: TextInputType.text,
+                      validator: (senha) {
+                        if (senha == null || senha.isEmpty) {
+                          return "Por favor insira uma senha";
                         }
-                      }
-                    },
-                    child: Text("ENTER"),
-                  ),
-                ],
+                        return null;
+                      },
+                    ),
+                    SizedBox(
+                      height: 12,
+                    ),
+                    ElevatedButton(
+                      onPressed: () async {
+                        FocusScopeNode currentFocus = FocusScope.of(context);
+                        //verificar se o estado das validações esta valido
+                        if (_formkey.currentState!.validate()) {
+                          bool confirm = await login();
+                          //Escondendo o teclado
+                          if (!currentFocus.hasPrimaryFocus) {
+                            currentFocus.unfocus();
+                          }
+                          if (confirm) {
+                            Navigator.pushReplacement(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => HomePage(),
+                              ),
+                            );
+                          } else {
+                            _passwordController.clear();
+                            ScaffoldMessenger.of(context)
+                                .showSnackBar(snackBar);
+                          }
+                        }
+                      },
+                      child: Text("LOGIN"),
+                    ),
+                  ],
+                ),
               ),
             ),
           ),
