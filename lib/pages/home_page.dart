@@ -18,7 +18,7 @@ class _HomePageState extends State<HomePage> {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           Text(
-            "Home Page",
+            "Home Pagina",
             textAlign: TextAlign.center,
           ),
           TextButton(
